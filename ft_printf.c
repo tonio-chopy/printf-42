@@ -6,7 +6,7 @@
 /*   By: alaualik <alaualik@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 23:40:46 by alaualik          #+#    #+#             */
-/*   Updated: 2024/11/03 15:23:24 by alaualik         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:45:35 by alaualik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ int	ft_printf(const char *format,...)
 {
 	int	count;
 	va_list	args;
+	if (!format)
+		return (0);
 	va_start(args, format);
 
 	count = 0;
 	
-	while (format)
+	while (*format)
 	{
 		if (*format == '%')
 		{
@@ -32,7 +34,7 @@ int	ft_printf(const char *format,...)
 			else if (*format == 'd')
 				count += ft_putnbr(va_arg(args, int));
 			else if (*format == '%')
-				write(1, "%", 1);
+				count += write(1, "%", 1);
 		}
 		else
 		{

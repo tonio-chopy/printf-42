@@ -6,28 +6,32 @@
 /*   By: alaualik <alaualik@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 14:10:35 by alaualik          #+#    #+#             */
-/*   Updated: 2024/11/03 15:23:40 by alaualik         ###   ########.fr       */
+/*   Updated: 2024/11/04 20:53:47 by alaualik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putchar(char c)
+int	ft_putchar(const char c)
 {
 	write(1, &c, 1);
+	return (1);
 }
 
 int	ft_putnbr(int nb)
 {
+	int	count;
+
+	count = 0;
 	if (nb == -2147483648)
 	{
-		write(1, "-2147483648", 11);
+	count += write(1, "-2147483648", 11);
 	}
 	else if (nb < 0)
 	{
-		ft_putchar('-');
+		count += ft_putchar('-');
 		nb = -nb;
-		ft_putnbr(nb);
+		count += ft_putnbr(nb);
 	}
 	else if (nb > 9)
 	{
@@ -35,6 +39,6 @@ int	ft_putnbr(int nb)
 		ft_putnbr(nb % 10);
 	}
 	else
-		ft_putchar(nb + '0');
-	return (nb);
+		count += ft_putchar(nb + '0');
+	return (count);
 }
