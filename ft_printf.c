@@ -31,8 +31,10 @@ int	ft_printf(const char *format,...)
 				count += put_c(va_arg(args, int));
 			else if (*format == 's')
 				count += putstr(va_arg(args,char *));
+			else if (*format == 'p')
+			        count += put_p(va_arg(args, void *));
 			else if (*format == 'd')
-				count += ft_putnbr(va_arg(args, int));
+				count += put_d(va_arg(args, int));
 			else if (*format == '%')
 				count += write(1, "%", 1);
 		}

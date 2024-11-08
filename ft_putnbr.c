@@ -12,33 +12,56 @@
 
 #include "ft_printf.h"
 
-int	ft_putchar(const char c)
+int int_length(int n)
 {
-	write(1, &c, 1);
-	return (1);
+    int len = 0;
+
+    if (n == 0)
+        return (1);
+
+    if (n < 0)
+    {
+        len++;
+        if (n == -2147483648)
+            n = 2147483647;
+        else
+            n = -n;
+    }
+
+    while (n > 0)
+    {
+        n /= 10;
+        len++;
+    }
+
+    return len;
 }
 
-int	ft_putnbr(int nb)
+void write_int_recursive(int n)
 {
-	int	count;
+    if (n == -2147483648)
+    {
+        write(1, "-2147483648", 11); 
+        return;
+    }
 
-	count = 0;
-	if (nb == -2147483648)
-	{
-	count += write(1, "-2147483648", 11);
-	}
-	else if (nb < 0)
-	{
-		count += ft_putchar('-');
-		nb = -nb;
-		count += ft_putnbr(nb);
-	}
-	else if (nb > 9)
-	{
-		ft_putnbr(nb / 10);
-		ft_putnbr(nb % 10);
-	}
-	else
-		count += ft_putchar(nb + '0');
-	return (count);
+    if (n < 0)
+    {
+        write(1, "-", 1);
+        n = -n;
+    }
+
+    if (n >= 10)
+        write_int_recursive(n / 10);
+
+    char digit = (n % 10) + '0';
+    write(1, &digit, 1);
 }
+
+int put_d(int n)
+{
+    int len = int_length(n); 
+    write_int_recursive(n);  
+    return len;              
+}
+
